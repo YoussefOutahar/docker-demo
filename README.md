@@ -2,6 +2,10 @@
 
 A collection of minimal "Hello World" applications demonstrating Docker containerization across 5 different technology stacks. Perfect for learning Docker basics with various programming languages and frameworks.
 
+**🔗 Includes networking examples with environment variables!**
+- React frontend calls Flask API
+- Spring Boot calls Flask using Docker service names and environment variables
+
 ## Projects Overview
 
 1. **PHP Laravel** - Simple PHP application with Apache
@@ -34,10 +38,14 @@ docker-compose up -d --build
 
 Once running, access the applications at:
 - **PHP Laravel**: http://localhost:8081
-- **Python Flask**: http://localhost:5000
-- **Java Spring Boot**: http://localhost:8080
-- **JavaScript React**: http://localhost:8082
+- **Python Flask**: http://localhost:5001 (API backend)
+- **Java Spring Boot**: http://localhost:8080 (also calls Flask API!)
+- **JavaScript React**: http://localhost:8082 (calls Flask API - see networking demo!)
 - **C# .NET**: View logs with `docker logs csharp-dotnet-demo`
+
+**🎯 Try the demos:**
+- **React → Flask**: http://localhost:8082 - Frontend API call
+- **Spring Boot → Flask**: http://localhost:8080/api/call-flask - Service-to-service with env vars (see ENV-VARIABLES.md)
 
 **Useful Docker Compose commands:**
 ```bash
@@ -88,13 +96,15 @@ curl http://localhost:8081
 ```bash
 cd 2-python-flask
 docker build -t python-flask-demo .
-docker run -p 5000:5000 python-flask-demo
+docker run -p 5001:5001 python-flask-demo
 ```
 
-**Test:** Open http://localhost:5000 in your browser or run:
+**Test:** Open http://localhost:5001 in your browser or run:
 ```bash
-curl http://localhost:5000
+curl http://localhost:5001
 ```
+
+**Note:** Using port 5001 to avoid conflict with macOS AirPlay Receiver (port 5000).
 
 **Expected output:** JSON response with "Hello from Flask"
 
@@ -162,10 +172,13 @@ docker run -p 8082:80 javascript-react-demo
 
 ### Docker Compose Orchestration
 - **Service Definition**: Multiple services in one configuration file
-- **Networking**: All containers connected via a bridge network
+- **Networking**: All containers connected via a bridge network (`demo-network`)
 - **Port Mapping**: Each service exposed on different host ports
 - **Container Naming**: Consistent, predictable container names
 - **Restart Policies**: Auto-restart for web services
+- **Environment Variables**: Configure service URLs dynamically (see ENV-VARIABLES.md)
+- **Service Dependencies**: Control startup order with `depends_on`
+- **Inter-Container Communication**: Spring Boot → Flask using service names
 
 ### Best Practices Shown
 - Using official base images
@@ -248,6 +261,7 @@ If you get a port binding error, either:
 docker-demo/
 ├── README.md
 ├── docker-compose.yml
+├── ENV-VARIABLES.md (environment variable configuration guide)
 ├── 1-php-laravel/
 │   ├── Dockerfile
 │   ├── index.php

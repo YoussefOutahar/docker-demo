@@ -11,14 +11,14 @@ services:
     networks:
       - demo-network
 
-  # 2. Python Flask - Flask on port 5000
+  # 2. Python Flask - Flask on port 5001
   python-flask:
     build:
       context: ./2-python-flask
       dockerfile: Dockerfile
     container_name: python-flask-demo
     ports:
-      - "5000:5000"
+      - "5001:5001"
     restart: unless-stopped
     networks:
       - demo-network
@@ -31,9 +31,14 @@ services:
     container_name: java-springboot-demo
     ports:
       - "8080:8080"
+    environment:
+      # Docker networking demo: Using service name as hostname
+      - FLASK_API_URL=http://python-flask:5001
     restart: unless-stopped
     networks:
       - demo-network
+    depends_on:
+      - python-flask
 
   # 4. C# .NET - Console application (interactive)
   csharp-dotnet:
