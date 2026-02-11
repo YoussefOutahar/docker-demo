@@ -1,0 +1,63 @@
+services:
+  # 1. PHP Laravel - Apache on port 8081
+  php-laravel:
+    build:
+      context: ./1-php-laravel
+      dockerfile: Dockerfile
+    container_name: php-laravel-demo
+    ports:
+      - "8081:80"
+    restart: unless-stopped
+    networks:
+      - demo-network
+
+  # 2. Python Flask - Flask on port 5000
+  python-flask:
+    build:
+      context: ./2-python-flask
+      dockerfile: Dockerfile
+    container_name: python-flask-demo
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    networks:
+      - demo-network
+
+  # 3. Java Spring Boot - Spring Boot on port 8080
+  java-springboot:
+    build:
+      context: ./3-java-springboot
+      dockerfile: Dockerfile
+    container_name: java-springboot-demo
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    networks:
+      - demo-network
+
+  # 4. C# .NET - Console application (interactive)
+  csharp-dotnet:
+    build:
+      context: ./4-csharp-dotnet
+      dockerfile: Dockerfile
+    container_name: csharp-dotnet-demo
+    stdin_open: true
+    tty: true
+    networks:
+      - demo-network
+
+  # 5. JavaScript React - Nginx on port 8082
+  javascript-react:
+    build:
+      context: ./5-javascript-react
+      dockerfile: Dockerfile
+    container_name: javascript-react-demo
+    ports:
+      - "8082:80"
+    restart: unless-stopped
+    networks:
+      - demo-network
+
+networks:
+  demo-network:
+    driver: bridge
