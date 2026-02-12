@@ -63,6 +63,29 @@ services:
     networks:
       - demo-network
 
+
+  javascript-react-unoptimized:
+    build:
+      context: ./5-javascript-react
+      dockerfile: Dockerfile.unoptimized
+    container_name: javascript-react-unoptimized-demo
+    ports:
+      - "8083:80"
+    restart: unless-stopped
+    networks:
+      - demo-network
+      
+  javascript-react-optimized:
+    build:
+      context: ./5-javascript-react
+      dockerfile: Dockerfile.optimized
+    container_name: javascript-react-optimized-demo
+    ports:
+      - "8084:80"
+    restart: unless-stopped
+    networks:
+      - demo-network      
+
 networks:
   demo-network:
     driver: bridge

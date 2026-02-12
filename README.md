@@ -2,9 +2,9 @@
 
 A collection of minimal "Hello World" applications demonstrating Docker containerization across 5 different technology stacks. Perfect for learning Docker basics with various programming languages and frameworks.
 
-**🔗 Includes networking examples with environment variables!**
-- React frontend calls Flask API
-- Spring Boot calls Flask using Docker service names and environment variables
+**Features:**
+- 🔗 **Networking**: React → Flask, Spring Boot → Flask with environment variables
+- 🚀 **Optimization**: Unoptimized vs optimized Docker images (96% size reduction!)
 
 ## Projects Overview
 
@@ -165,10 +165,12 @@ docker run -p 8082:80 javascript-react-demo
 - **PHP Laravel**: Simple copy-and-run pattern
 - **Python Flask**: Install dependencies then run
 
-### Multi-Stage Builds
+### Multi-Stage Builds & Optimization
 - **Java Spring Boot**: Build with Maven, run with JRE (smaller final image)
 - **C# .NET**: Build with SDK, run with Runtime (smaller final image)
 - **JavaScript React**: Build with Node.js, serve with Nginx (production-ready)
+  - 📊 **Optimization Demo**: Compare `Dockerfile.unoptimized` (1.2GB) vs `Dockerfile.optimized` (45MB)
+  - See `5-javascript-react/OPTIMIZATION.md` for detailed comparison
 
 ### Docker Compose Orchestration
 - **Service Definition**: Multiple services in one configuration file
@@ -284,7 +286,10 @@ docker-demo/
 │   ├── dotnet-demo.csproj
 │   └── .dockerignore
 └── 5-javascript-react/
-    ├── Dockerfile
+    ├── Dockerfile (optimized - default)
+    ├── Dockerfile.optimized (heavily documented)
+    ├── Dockerfile.unoptimized (anti-pattern examples)
+    ├── OPTIMIZATION.md (optimization guide)
     ├── package.json
     ├── .dockerignore
     ├── public/

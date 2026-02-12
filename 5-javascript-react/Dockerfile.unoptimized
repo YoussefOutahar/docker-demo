@@ -1,0 +1,37 @@
+# ❌ UNOPTIMIZED DOCKERFILE - DO NOT USE IN PRODUCTION
+# This Dockerfile demonstrates common mistakes and poor practices
+
+FROM node:18
+
+# ❌ Bad: Using root user
+# ❌ Bad: No WORKDIR set initially
+COPY . /app
+
+# ❌ Bad: Setting WORKDIR after copy
+WORKDIR /app
+
+# ❌ Bad: Installing ALL dependencies including devDependencies
+# ❌ Bad: Not leveraging layer caching (copying everything first)
+RUN npm install
+
+# ❌ Bad: Running build in the same stage
+RUN npm run build
+
+# ❌ Bad: Installing serve globally
+RUN npm install -g serve
+
+# ❌ Bad: Exposing port late
+EXPOSE 3000
+
+# ❌ Bad: Using a development server for production
+# ❌ Bad: Full Node.js runtime just to serve static files
+CMD ["serve", "-s", "build", "-l", "3000"]
+
+# Problems with this Dockerfile:
+# 1. Image size: ~1.2GB (includes full Node.js + all dependencies + source code)
+# 2. No multi-stage build
+# 3. Poor layer caching (changes to source code invalidate npm install)
+# 4. Includes node_modules, source code, and build tools in final image
+# 5. Running as root user (security risk)
+# 6. Using development-grade server for production
+# 7. No .dockerignore (copies unnecessary files)
